@@ -3,5 +3,10 @@ use ExtUtils::MakeMaker;
 # the contents of the Makefile that is written.
 WriteMakefile(
     'NAME'	=> 'DBIx::OracleSequence',
+	'AUTHOR' => 'Doug Bloebaum',
     'VERSION_FROM' => 'OracleSequence.pm', # finds $VERSION
+	'PREREQ_PM' => {
+	  'DBD::Oracle' => '1',
+	  'DBI' => '1',
+    }
 );

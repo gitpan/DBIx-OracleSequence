@@ -51,7 +51,7 @@ use strict;
 use DBD::Oracle;
 use vars qw($VERSION);
 
-$VERSION = sprintf("%d.%02d", q$Revision: 0.3 $ =~ /(\d+)\.(\d+)/);
+$VERSION = sprintf("%d.%02d", q$Revision: 0.4 $ =~ /(\d+)\.(\d+)/);
 
 # private helper method
 sub _getSeqAttribute {

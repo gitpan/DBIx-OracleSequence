@@ -12,3 +12,6 @@ Revision history for Perl extension DBIx::OracleSequence.
 	  cycle('N') and nocycle() are equivalent
 	- added feature to cycle and order so that they now work :-)
 
+0.04  Mon Aug 12 17:12:00 2002
+	- fixed Makefile.PL to require DBD::Oracle and DBI as prerequisites
+	  to keep CPAN testers happy.  They deserve a little happiness.
