@@ -51,7 +51,7 @@ use strict;
 use DBD::Oracle;
 use vars qw($VERSION);
 
-$VERSION = sprintf("%d.%02d", q$Revision: 0.1 $ =~ /(\d+)\.(\d+)/);
+$VERSION = sprintf("%d.%02d", q$Revision: 0.2 $ =~ /(\d+)\.(\d+)/);
 
 # private helper method
 sub _getSeqAttribute {
@@ -261,7 +261,7 @@ nocycle() - alter sequence to return an error after reaching maxvalue instead of
 
 =cut
 
-sub cycle {
+sub nocycle {
   my $self = shift;
   my $seq = $self->{SEQ};
   $self->{DBH}->do("alter sequence $seq nocycle") if @_;

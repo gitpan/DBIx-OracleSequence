@@ -3,3 +3,6 @@ Revision history for Perl extension DBIx::OracleSequence.
 0.01  Fri Dec  3 10:34:50 1999
 	- original version; created by h2xs 1.19
 
+0.02  Tue Dec 14 13:17:00 1999
+	- corrected duplication of the cycle() method
+
