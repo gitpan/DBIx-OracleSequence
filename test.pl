@@ -64,9 +64,14 @@ print "Sequence should be gone now: ", $seq->print, "\n\n";
 my $seq = DBIx::OracleSequence->new($dbh);
 $seq->name('test2_seq');
 $seq->create;
-print "incrementBy=", $seq->incrementBy(11), "\n";
 print "maxvalue=", $seq->maxvalue(3000), "\n";
 print "cache=", $seq->cache(100), "\n";
+print "cycle=", $seq->cycle('Y'), "\n";
+print "order=", $seq->order('Y'), "\n";
+print "incrementBy=", $seq->incrementBy(11), "\n";
+$seq->print;
+print "cycle=", $seq->cycle('N'), "\n";
+print "cycle=", $seq->cycle, "\n";
 $seq->print;
 for (my $i=1; $i<20; $i++) {
   print "nextval=",$seq->nextval(),"\n";

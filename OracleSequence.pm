@@ -51,7 +51,7 @@ use strict;
 use DBD::Oracle;
 use vars qw($VERSION);
 
-$VERSION = sprintf("%d.%02d", q$Revision: 0.2 $ =~ /(\d+)\.(\d+)/);
+$VERSION = sprintf("%d.%02d", q$Revision: 0.3 $ =~ /(\d+)\.(\d+)/);
 
 # private helper method
 sub _getSeqAttribute {
@@ -171,7 +171,7 @@ sub incrementBy {
   my $self = shift;
   my $inc = shift;
   my $seq = $self->{SEQ};
-  $self->{DBH}->do("alter sequence $seq increment by $inc");
+  $self->{DBH}->do("alter sequence $seq increment by $inc") if $inc;
   $self->_getSeqAttribute("INCREMENT_BY");
 }
 
@@ -189,7 +189,7 @@ sub maxvalue {
   my $self = shift;
   my $max = shift;
   my $seq = $self->{SEQ};
-  $self->{DBH}->do("alter sequence $seq maxvalue $max");
+  $self->{DBH}->do("alter sequence $seq maxvalue $max") if $max;
   $self->_getSeqAttribute("MAX_VALUE");
 }
 
@@ -207,7 +207,7 @@ sub minvalue {
   my $self = shift;
   my $min = shift;
   my $seq = $self->{SEQ};
-  $self->{DBH}->do("alter sequence $seq minvalue $min");
+  $self->{DBH}->do("alter sequence $seq minvalue $min") if $min;
   $self->_getSeqAttribute("MIN_VALUE");
 }
 
@@ -225,7 +225,7 @@ sub cache {
   my $self = shift;
   my $cacheVal = shift;
   my $seq = $self->{SEQ};
-  $self->{DBH}->do("alter sequence $seq cache $cacheVal");
+  $self->{DBH}->do("alter sequence $seq cache $cacheVal") if $cacheVal;
   $self->_getSeqAttribute("CACHE_SIZE");
 }
 
@@ -244,15 +244,24 @@ sub nocache {
 
 =item
 
-cycle() - alter sequence to cycle after reaching maxvalue instead of returning an error
+cycle('Y')/cycle('N') - alter sequence to cycle/not cycle after reaching maxvalue instead of returning an error.  Note that cycle('N') and nocycle() are equivalent.
+
+=item
+
+cycle() - return the current sequence's cycle flag
 
 =cut
 
 sub cycle {
   my $self = shift;
   my $seq = $self->{SEQ};
-  $self->{DBH}->do("alter sequence $seq cycle") if @_;
-  $self->_getSeqAttribute("CYCLE_FLAG");
+  my $cycle_flag = shift;
+
+  if (defined($cycle_flag)) {
+    $self->{DBH}->do("alter sequence $seq cycle") if $cycle_flag eq 'Y';
+    $self->{DBH}->do("alter sequence $seq nocycle") if $cycle_flag eq 'N';
+  }
+  $self->_getSeqAttribute("CYCLE_FLAG")
 }
 
 =item
@@ -264,20 +273,29 @@ nocycle() - alter sequence to return an error after reaching maxvalue instead of
 sub nocycle {
   my $self = shift;
   my $seq = $self->{SEQ};
-  $self->{DBH}->do("alter sequence $seq nocycle") if @_;
+  $self->{DBH}->do("alter sequence $seq nocycle");
   $self->_getSeqAttribute("CYCLE_FLAG");
 }
 
 =item
 
-order() - alter sequence to guarantee that sequence numbers are generated in the order of their request
+order('Y')/order('N') - alter sequence to guarantee/not guarantee that sequence numbers are generated in the order of their request.  Note that order('N') and noorder() are equivalent.
+
+=item
+
+order() - return current sequence's order flag
 
 =cut
 
 sub order {
   my $self = shift;
   my $seq = $self->{SEQ};
-  $self->{DBH}->do("alter sequence $seq order") if @_;
+  my $order_flag = shift;
+
+  if (defined($order_flag)) {
+    $self->{DBH}->do("alter sequence $seq order") if $order_flag eq 'Y';
+    $self->{DBH}->do("alter sequence $seq noorder") if $order_flag eq 'N';
+  }
   $self->_getSeqAttribute("ORDER_FLAG");
 }
 

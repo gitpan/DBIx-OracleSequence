@@ -44,7 +44,7 @@ SYNOPSIS
 
     $oracleDbh = DBI->connect("dbi:Oracle:SID", 'login', 'password');
 
-    my $seq = new DBD::Oracle::Sequence($oracleDbh,'my_sequence_name');
+    my $seq = new DBIx::OracleSequence($oracleDbh,'my_sequence_name');
 
     $seq->create();                 # create a new sequence with default parms
     $seq->incrementBy(5);           # alter the seq to increment by 5
@@ -54,7 +54,7 @@ SYNOPSIS
     $seq->print();                  # print information about the sequence
 
     # connect to a sequence that already exists
-    my $seq2 = new DBD::Oracle::Sequence($oracleDbh,'preexisting_seq');
+    my $seq2 = new DBIx::OracleSequence($oracleDbh,'preexisting_seq');
     $seq2->print();
     $seq2->drop();                  # get rid of it
 
